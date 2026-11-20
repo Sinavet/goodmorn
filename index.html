@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8e8d9">
+  <meta name="description" content="Лейкоциты, рикошеты и чай. Маленькая браузерная игра на доброе утро.">
+  <title>Утренняя смена</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css?v=personal-photo-framing">
+  <script src="sound.js" defer></script>
+  <script src="vessel.js?v=personal-photo-framing" defer></script>
+  <script src="game.js?v=tap-dialogue" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="bar">
+      <div class="brand"><span class="brand-cell" aria-hidden="true"></span> <span>Утренняя смена</span></div>
+      <div class="bar-actions">
+        <button class="audio" id="sound" type="button" aria-pressed="true" aria-label="Выключить звук"><span aria-hidden="true">♫</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="board intro" id="intro" aria-labelledby="intro-title">
+        <div class="intro-artery" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="intro-cast" aria-hidden="true">
+          <img class="intro-hero" src="assets/vessel-leuko.png" alt="">
+          <img class="intro-virus" src="assets/vessel-virus-1.png" alt="">
+          <span class="intro-spark">✦</span><span class="intro-spark intro-spark--small">✦</span>
+        </div>
+        <div class="intro-copy">
+          <h1 id="intro-title">Доброе<br>утро<span>!</span></h1>
+          <p class="lead">Егор Крид, он же Милый Ублюдок, пришёл выразить соболезнования твоему иммунитету. Иммунитет просил передать, что он ещё жив.</p>
+          <button type="button" class="action" id="start">Начать игру <span aria-hidden="true">▶</span></button>
+          <noscript><p>Доброе утро! Отдыхай и поправляйся.</p></noscript>
+        </div>
+      </section>
+
+      <section class="board play" id="play" aria-label="Игра" hidden>
+        <canvas id="vessel" width="180" height="320" tabindex="0" aria-label="Кровоток" aria-describedby="hint"></canvas>
+        <div class="hud">
+          <div class="objective">
+            <p class="label" id="chapter">1 из 3</p>
+            <h2 id="objective">Расчистить проход</h2>
+          </div>
+          <div class="meters">
+            <div class="progress" id="progress" role="progressbar" aria-label="Прогресс этапа"></div>
+            <button id="pause" class="pause" type="button" aria-label="Пауза">Ⅱ</button>
+          </div>
+        </div>
+        <p class="heart-note" id="heart-note" hidden><span aria-hidden="true">↖</span>это сердце,<br>если чё</p>
+        <p class="hint" id="hint"></p>
+        <div class="speech" id="speech" role="group" aria-label="Диалог" hidden>
+          <div class="speaker" id="speaker"></div>
+          <p class="speech-text" id="speech-text" aria-hidden="true"><span id="speech-letters"></span></p>
+          <p class="sr" id="speech-announcement" aria-live="polite"></p>
+          <button class="next" id="speech-next" type="button" aria-label="Дальше">▸</button>
+        </div>
+        <div class="pause-layer" id="paused" hidden>
+          <h2>Пауза</h2>
+          <button class="action" type="button" id="resume">Продолжить <span aria-hidden="true">▶</span></button>
+        </div>
+      </section>
+
+      <section class="board tea" id="tea" aria-labelledby="tea-title" hidden>
+        <div class="tea-copy">
+          <h2 id="tea-title" tabindex="-1">Чай</h2>
+          <p id="tea-line" aria-live="polite">ЭЭЭЭ, почему я чайный пакетик???</p>
+        </div>
+        <div class="tea-art" aria-hidden="true">
+          <div class="tea-sun"></div>
+          <i class="tea-star tea-star--one">✦</i><i class="tea-star tea-star--two">✦</i>
+          <i class="tea-leaf tea-leaf--one"></i><i class="tea-leaf tea-leaf--two"></i>
+          <div class="tea-bag"><img id="tea-photo" src="assets/portrait.jpg" alt=""><span></span></div>
+          <div class="tea-steam"><i></i><i></i><i></i></div>
+          <div class="mug">
+            <div class="mug-handle"></div><div class="mug-body"></div>
+            <div class="tea-water"><span class="tea-liquid"></span><i></i></div><div class="mug-logo">✦</div>
+          </div>
+          <div class="saucer"></div>
+        </div>
+        <button class="action" type="button" id="brew">Заварить чай <span aria-hidden="true">↓</span></button>
+      </section>
+
+      <section class="board final" id="final" aria-labelledby="final-title" hidden>
+        <div class="final-copy">
+          <p class="label" id="outcome"></p>
+          <h2 id="final-title" tabindex="-1">Хорошего<br>утра</h2>
+          <p class="lead">Надеюсь, тебе сегодня будет полегче.</p>
+        </div>
+        <div class="final-photo" id="final-photo">
+          <img id="shrek-photo" alt="Фото с фильтром: Шрек целует меня в губы" hidden>
+          <div class="shrek-placeholder" id="shrek-placeholder" role="img" aria-label="Место для фото со Шреком">
+            <div class="placeholder-profiles" aria-hidden="true"><i></i><b>♥</b><i></i></div>
+            <span aria-hidden="true">Фото со Шреком</span>
+          </div>
+          <span class="kiss-mark" id="kiss-mark" aria-hidden="true" hidden>💋</span>
+        </div>
+        <p class="final-line" id="final-line" aria-live="polite">Шрек уже занял губы. Щёка пока свободна.</p>
+        <div class="kiss-meme" id="kiss-meme" aria-live="polite" hidden>
+          <div class="kiss-meme-card">
+            <img id="kiss-meme-photo" alt="Мем после поцелуя" hidden>
+            <p id="kiss-meme-placeholder">Место для мема</p>
+          </div>
+        </div>
+        <div class="final-actions" id="final-actions">
+          <button class="action" id="kiss" type="button">Поцеловать в щёку <span aria-hidden="true">✦</span></button>
+          <button class="quiet" id="exit" type="button">Разбить Мише сердце....</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
